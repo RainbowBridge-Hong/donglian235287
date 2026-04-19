@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>房屋与生活 - 一站式生活服务平台</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#f5f5f5;color:#333}
+    .nav{background:#fff;box-shadow:0 2px 4px rgba(0,0,0,0.1);padding:0 20px;position:sticky;top:0;z-index:100}
+    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
+    .logo{font-size:20px;font-weight:bold;color:#3498db;display:flex;align-items:center;gap:8px}
+    .nav-links{display:flex;gap:5px;flex-wrap:wrap}
+    .lk{padding:8px 12px;text-decoration:none;color:#666;border-radius:4px;cursor:pointer;transition:all .3s;font-size:14px}
+    .lk:hover,.lk.on{background:#3498db;color:#fff}
+    .container{max-width:1200px;margin:20px auto;padding:0 20px}
+    .grid{background:#fff;border-radius:8px;padding:20px;min-height:500px}
+    .section{margin-bottom:30px}
+    .section h2{font-size:20px;margin-bottom:15px;color:#333;border-left:4px solid #3498db;padding-left:10px}
+    .card-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px}
+    .card{background:#f9f9f9;border-radius:8px;padding:15px;transition:transform .2s;cursor:pointer}
+    .card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
+    .card h3{font-size:16px;margin-bottom:8px;color:#333}
+    .card p{font-size:13px;color:#666;margin-bottom:5px;line-height:1.5}
+    .district-filter{margin:15px 0;padding:15px;background:#f0f8ff;border-radius:8px}
+    .district-filter span{font-weight:bold;margin-right:10px}
+    .district-btn{margin:0 5px;padding:6px 15px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:4px;transition:all .3s}
+    .district-btn:hover,.district-btn.on{background:#3498db;color:#fff;border-color:#3498db}
+    .tabs{margin:15px 0;display:flex;gap:10px}
+    .tab-btn{padding:8px 20px;border:none;background:#eee;cursor:pointer;border-radius:4px;transition:all .3s}
+    .tab-btn.on{background:#3498db;color:#fff}
+    .user-post-btn{margin:20px 0;text-align:center}
+    .btn{padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-size:14px;transition:all .3s}
+    .btn-primary{background:#3498db;color:#fff}
+    .btn-primary:hover{background:#2980b9}
+    .btn-outline{background:#fff;color:#3498db;border:1px solid #3498db}
+    .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000}
+    .modal.on{display:flex}
+    .modal-content{background:#fff;padding:30px;border-radius:8px;min-width:300px;max-width:500px;width:90%}
+    .modal-content h2{margin-bottom:20px}
+    .modal-content input,.modal-content textarea{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ddd;border-radius:4px}
+    .modal-content textarea{min-height:100px;resize:vertical}
+    .close{float:right;font-size:24px;cursor:pointer;color:#999}
+    .close:hover{color:#333}
+    .admin-panel{background:#fff;padding:20px;border-radius:8px}
+    .admin-tabs{display:flex;gap:10px;margin-bottom:20px;border-bottom:2px solid #eee;padding-bottom:10px}
+    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin:20px 0}
+    .stat-card{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:20px;border-radius:8px;text-align:center}
+    .stat-card h3{font-size:14px;margin-bottom:10px}
+    .stat-card .num{font-size:28px;font-weight:bold}
+    .admin-table{width:100%;border-collapse:collapse;margin:15px 0}
+    .admin-table th,.admin-table td{padding:12px;border:1px solid #ddd;text-align:left}
+    .admin-table th{background:#f5f5f5}
+    .btn-sm{padding:5px 10px;font-size:12px}
+    .post-card{background:#fff;border:1px solid #eee;border-radius:8px;padding:15px;margin:10px 0}
+    .post-card h4{margin-bottom:8px}
+    .post-meta{font-size:12px;color:#999;margin-top:10px}
+    .empty{text-align:center;padding:40px;color:#999}
+    @media(max-width:768px){.card-list{grid-template-columns:1fr}.nav-links{gap:3px}.lk{padding:6px 8px;font-size:12px}}
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="logo">🏠 房屋与生活</div>
+      <div class="nav-links">
+        <a class="lk on" onclick="gp('home')">首页</a>
+        <a class="lk" onclick="gp('fangchan')">房产</a>
+        <a class="lk" onclick="gp('tudi')">土地</a>
+        <a class="lk" onclick="gp('shenghuo')">生活</a>
+        <a class="lk" onclick="gp('diandongche')">汽车</a>
+        <a class="lk" onclick="gp('dianji')">电动车</a>
+        <a class="lk" onclick="gp('wangyueche')">网约车</a>
+        <a class="lk" onclick="gp('xueche')">学车</a>
+        <a class="lk" onclick="gp('news')">资讯</a>
+        <a class="lk" onclick="gp('admin')">管理</a>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="grid" id="mainGrid"></div>
+  </div>
+
+  <!-- 登录模态框 -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cm('loginModal')">&times;</span>
+      <h2>用户登录</h2>
+      <input type="text" id="loginUsername" placeholder="用户名">
+      <input type="password" id="loginPwd" placeholder="密码">
+      <button class="btn btn-primary" onclick="doLogin()">登录</button>
+      <p style="margin-top:15px;text-align:center">还没有账号？<a href="#" onclick="cm('loginModal');sm('registerModal')">立即注册</a></p>
+    </div>
+  </div>
+
+  <!-- 注册模态框 -->
+  <div id="registerModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cm('registerModal')">&times;</span>
+      <h2>用户注册</h2>
+      <input type="text" id="regUsername" placeholder="用户名">
+      <input type="text" id="regPhone" placeholder="手机号">
+      <input type="password" id="regPwd" placeholder="密码（至少6位）">
+      <button class="btn btn-primary" onclick="doRegister()">注册</button>
+    </div>
+  </div>
+
+  <!-- 管理员登录模态框 -->
+  <div id="adminLoginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cm('adminLoginModal')">&times;</span>
+      <h2>管理员登录</h2>
+      <input type="text" id="adminUser" placeholder="管理员账号">
+      <input type="password" id="adminPwd" placeholder="管理员密码">
+      <button class="btn btn-primary" onclick="adminLogin()">登录</button>
+    </div>
+  </div>
+
+  <!-- 发布信息模态框 -->
+  <div id="postFormModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cm('postFormModal')">&times;</span>
+      <h2>发布信息</h2>
+      <input type="text" id="postTitle" placeholder="标题">
+      <textarea id="postDesc" placeholder="详细描述"></textarea>
+      <input type="text" id="postContact" placeholder="联系电话">
+      <input type="text" id="postPrice" placeholder="价格（选填）">
+      <button class="btn btn-primary" onclick="submitPost()">发布</button>
+    </div>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
