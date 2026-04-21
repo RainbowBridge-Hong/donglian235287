@@ -3,136 +3,577 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>房屋与生活 - 一站式生活服务平台</title>
+  <title>东濂置业主页 | 海口生活资讯一览</title>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#f5f5f5;color:#333}
-    .nav{background:#fff;box-shadow:0 2px 4px rgba(0,0,0,0.1);padding:0 20px;position:sticky;top:0;z-index:100}
-    .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px}
-    .logo{font-size:20px;font-weight:bold;color:#3498db;display:flex;align-items:center;gap:8px}
-    .nav-links{display:flex;gap:5px;flex-wrap:wrap}
-    .lk{padding:8px 12px;text-decoration:none;color:#666;border-radius:4px;cursor:pointer;transition:all .3s;font-size:14px}
-    .lk:hover,.lk.on{background:#3498db;color:#fff}
-    .container{max-width:1200px;margin:20px auto;padding:0 20px}
-    .grid{background:#fff;border-radius:8px;padding:20px;min-height:500px}
-    .section{margin-bottom:30px}
-    .section h2{font-size:20px;margin-bottom:15px;color:#333;border-left:4px solid #3498db;padding-left:10px}
-    .card-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:15px}
-    .card{background:#f9f9f9;border-radius:8px;padding:15px;transition:transform .2s;cursor:pointer}
-    .card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1)}
-    .card h3{font-size:16px;margin-bottom:8px;color:#333}
-    .card p{font-size:13px;color:#666;margin-bottom:5px;line-height:1.5}
-    .district-filter{margin:15px 0;padding:15px;background:#f0f8ff;border-radius:8px}
-    .district-filter span{font-weight:bold;margin-right:10px}
-    .district-btn{margin:0 5px;padding:6px 15px;border:1px solid #ddd;background:#fff;cursor:pointer;border-radius:4px;transition:all .3s}
-    .district-btn:hover,.district-btn.on{background:#3498db;color:#fff;border-color:#3498db}
-    .tabs{margin:15px 0;display:flex;gap:10px}
-    .tab-btn{padding:8px 20px;border:none;background:#eee;cursor:pointer;border-radius:4px;transition:all .3s}
-    .tab-btn.on{background:#3498db;color:#fff}
-    .user-post-btn{margin:20px 0;text-align:center}
-    .btn{padding:10px 20px;border:none;border-radius:4px;cursor:pointer;font-size:14px;transition:all .3s}
-    .btn-primary{background:#3498db;color:#fff}
-    .btn-primary:hover{background:#2980b9}
-    .btn-outline{background:#fff;color:#3498db;border:1px solid #3498db}
-    .modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);display:none;justify-content:center;align-items:center;z-index:1000}
-    .modal.on{display:flex}
-    .modal-content{background:#fff;padding:30px;border-radius:8px;min-width:300px;max-width:500px;width:90%}
-    .modal-content h2{margin-bottom:20px}
-    .modal-content input,.modal-content textarea{width:100%;padding:10px;margin-bottom:15px;border:1px solid #ddd;border-radius:4px}
-    .modal-content textarea{min-height:100px;resize:vertical}
-    .close{float:right;font-size:24px;cursor:pointer;color:#999}
-    .close:hover{color:#333}
-    .admin-panel{background:#fff;padding:20px;border-radius:8px}
-    .admin-tabs{display:flex;gap:10px;margin-bottom:20px;border-bottom:2px solid #eee;padding-bottom:10px}
-    .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:15px;margin:20px 0}
-    .stat-card{background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;padding:20px;border-radius:8px;text-align:center}
-    .stat-card h3{font-size:14px;margin-bottom:10px}
-    .stat-card .num{font-size:28px;font-weight:bold}
-    .admin-table{width:100%;border-collapse:collapse;margin:15px 0}
-    .admin-table th,.admin-table td{padding:12px;border:1px solid #ddd;text-align:left}
-    .admin-table th{background:#f5f5f5}
-    .btn-sm{padding:5px 10px;font-size:12px}
-    .post-card{background:#fff;border:1px solid #eee;border-radius:8px;padding:15px;margin:10px 0}
-    .post-card h4{margin-bottom:8px}
-    .post-meta{font-size:12px;color:#999;margin-top:10px}
-    .empty{text-align:center;padding:40px;color:#999}
-    @media(max-width:768px){.card-list{grid-template-columns:1fr}.nav-links{gap:3px}.lk{padding:6px 8px;font-size:12px}}
+    /* ===== 报纸风格全局 ===== */
+    :root {
+      --paper-bg: #f5f0e8;
+      --ink: #1a1a1a;
+      --ink-light: #4a4a4a;
+      --accent-red: #c0392b;
+      --accent-blue: #1a5276;
+      --border: #c8b89a;
+      --col-gap: 12px;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: "SimSun", "宋体", "Songti SC", serif;
+      background: var(--paper-bg);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+
+    /* ===== 固定导航 ===== */
+    .navbar {
+      background: var(--ink);
+      color: #fff;
+      padding: 0 20px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      font-size: 13px;
+    }
+    .navbar .brand { font-weight: bold; font-size: 15px; letter-spacing: 2px; }
+    .navbar .nav-links a {
+      color: #ccc;
+      margin-left: 18px;
+      transition: color 0.2s;
+    }
+    .navbar .nav-links a:hover { color: #fff; }
+    .navbar .nav-right { font-size: 12px; color: #aaa; }
+
+    /* ===== 主容器（报纸版心） ===== */
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 16px 40px;
+    }
+
+    /* ===== 报头区 ===== */
+    .masthead {
+      text-align: center;
+      padding: 28px 0 12px;
+      border-bottom: 3px solid var(--ink);
+    }
+    .masthead .edition-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--ink-light);
+      margin-bottom: 8px;
+    }
+    .masthead h1 {
+      font-size: 38px;
+      font-weight: 900;
+      letter-spacing: 8px;
+      line-height: 1.1;
+      border-top: 4px double var(--ink);
+      border-bottom: 4px double var(--ink);
+      padding: 8px 0;
+      margin-bottom: 6px;
+    }
+    .masthead .subtitle {
+      font-size: 12px;
+      color: var(--ink-light);
+      letter-spacing: 4px;
+    }
+
+    /* ===== 头条区 ===== */
+    .headline-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--col-gap);
+      margin: 14px 0 0;
+    }
+    .headline-box {
+      border: 1.5px solid var(--ink);
+      padding: 12px 14px;
+      background: #fff;
+    }
+    .headline-box.red-box {
+      background: var(--accent-red);
+      color: #fff;
+      border-color: var(--accent-red);
+    }
+    .headline-box .section-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--ink-light);
+      margin-bottom: 6px;
+      font-family: sans-serif;
+    }
+    .headline-box.red-box .section-label { color: rgba(255,255,255,0.7); }
+    .headline-box h2 { font-size: 15px; font-weight: bold; line-height: 1.4; }
+    .headline-box.red-box h2 { font-size: 17px; }
+    .headline-box .meta { font-size: 11px; margin-top: 6px; color: var(--ink-light); }
+    .headline-box.red-box .meta { color: rgba(255,255,255,0.7); }
+
+    /* ===== 区块标题栏 ===== */
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--ink);
+      margin: 18px 0 10px;
+      padding-bottom: 4px;
+    }
+    .section-header h3 {
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      font-family: sans-serif;
+    }
+    .section-header .updated {
+      font-size: 11px;
+      color: var(--ink-light);
+      font-family: sans-serif;
+    }
+
+    /* ===== 房价K线图区 ===== */
+    .chart-section {
+      border: 1.5px solid var(--ink);
+      background: #fff;
+      margin-bottom: 4px;
+    }
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+    }
+    .chart-header h3 {
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    .chart-legend {
+      display: flex;
+      gap: 14px;
+    }
+    .chart-legend span {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-family: sans-serif;
+    }
+    .chart-legend .dot {
+      width: 10px; height: 3px;
+      border-radius: 2px;
+      display: inline-block;
+    }
+    #priceChart { width: 100%; height: 220px; }
+
+    /* ===== 四区均价卡片 ===== */
+    .district-prices {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--col-gap);
+      margin: 10px 0;
+    }
+    .price-card {
+      border: 1.5px solid var(--ink);
+      padding: 10px 12px;
+      background: #fff;
+      text-align: center;
+    }
+    .price-card .d-name {
+      font-size: 12px;
+      letter-spacing: 2px;
+      color: var(--ink-light);
+      margin-bottom: 4px;
+      font-family: sans-serif;
+    }
+    .price-card .d-price {
+      font-size: 22px;
+      font-weight: bold;
+      color: var(--accent-red);
+      line-height: 1;
+    }
+    .price-card .d-unit { font-size: 10px; color: var(--ink-light); }
+    .price-card .d-trend {
+      font-size: 12px;
+      margin-top: 4px;
+      font-family: sans-serif;
+    }
+    .price-card .d-trend.up { color: #c0392b; }
+    .price-card .d-trend.down { color: #27ae60; }
+
+    /* ===== 资讯四列区 ===== */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--col-gap);
+    }
+    .news-col {
+      border: 1.5px solid var(--ink);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+    }
+    .news-col-header {
+      background: var(--ink);
+      color: #fff;
+      padding: 8px 12px;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      text-align: center;
+    }
+    .news-col-header.wyche   { background: #1a5276; }
+    .news-col-header.ev      { background: #1e8449; }
+    .news-col-header.moto    { background: #6e2f1a; }
+    .news-col-header.ebike   { background: #4a235a; }
+
+    .news-item {
+      padding: 10px 11px;
+      border-bottom: 1px dashed var(--border);
+      flex: 1;
+    }
+    .news-item:last-child { border-bottom: none; }
+    .news-item .tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 5px;
+      color: #fff;
+      border-radius: 2px;
+      margin-bottom: 4px;
+      font-family: sans-serif;
+    }
+    .news-item .tag.hot { background: var(--accent-red); }
+    .news-item .tag.normal { background: var(--ink-light); }
+    .news-item .title {
+      font-size: 12px;
+      font-weight: bold;
+      line-height: 1.5;
+      margin-bottom: 4px;
+      color: var(--ink);
+    }
+    .news-item .summary {
+      font-size: 11px;
+      color: var(--ink-light);
+      line-height: 1.6;
+    }
+    .news-item .footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: #aaa;
+      margin-top: 5px;
+      font-family: sans-serif;
+    }
+
+    /* ===== 底部 ===== */
+    .footer-bar {
+      border-top: 2px solid var(--ink);
+      margin-top: 20px;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 11px;
+      color: var(--ink-light);
+      letter-spacing: 2px;
+      font-family: sans-serif;
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 768px) {
+      .navbar .nav-links { display: none; }
+      .masthead h1 { font-size: 26px; letter-spacing: 4px; }
+      .headline-row { grid-template-columns: 1fr; }
+      .district-prices { grid-template-columns: repeat(2, 1fr); }
+      .news-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 480px) {
+      .news-grid { grid-template-columns: 1fr; }
+      .district-prices { grid-template-columns: 1fr 1fr; }
+    }
   </style>
 </head>
 <body>
-  <nav class="nav">
-    <div class="nav-inner">
-      <div class="logo">🏠 房屋与生活</div>
-      <div class="nav-links">
-        <a class="lk on" onclick="gp('home')">首页</a>
-        <a class="lk" onclick="gp('fangchan')">房产</a>
-        <a class="lk" onclick="gp('tudi')">土地</a>
-        <a class="lk" onclick="gp('shenghuo')">生活</a>
-        <a class="lk" onclick="gp('diandongche')">汽车</a>
-        <a class="lk" onclick="gp('dianji')">电动车</a>
-        <a class="lk" onclick="gp('wangyueche')">网约车</a>
-        <a class="lk" onclick="gp('xueche')">学车</a>
-        <a class="lk" onclick="gp('news')">资讯</a>
-        <a class="lk" onclick="gp('admin')">管理</a>
-      </div>
-    </div>
-  </nav>
-  
-  <div class="container">
-    <div class="grid" id="mainGrid"></div>
-  </div>
 
-  <!-- 登录模态框 -->
-  <div id="loginModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="cm('loginModal')">&times;</span>
-      <h2>用户登录</h2>
-      <input type="text" id="loginUsername" placeholder="用户名">
-      <input type="password" id="loginPwd" placeholder="密码">
-      <button class="btn btn-primary" onclick="doLogin()">登录</button>
-      <p style="margin-top:15px;text-align:center">还没有账号？<a href="#" onclick="cm('loginModal');sm('registerModal')">立即注册</a></p>
-    </div>
+<!-- ===== 导航栏 ===== -->
+<nav class="navbar">
+  <div class="brand">东濂置业</div>
+  <div class="nav-links">
+    <a href="#price-section">房价走势</a>
+    <a href="#news-section">资讯快报</a>
+    <a href="https://rainbowbridge-hong.github.io/donglian235287/">完整版&gt;&gt;</a>
   </div>
+  <div class="nav-right" id="navDate"></div>
+</nav>
 
-  <!-- 注册模态框 -->
-  <div id="registerModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="cm('registerModal')">&times;</span>
-      <h2>用户注册</h2>
-      <input type="text" id="regUsername" placeholder="用户名">
-      <input type="text" id="regPhone" placeholder="手机号">
-      <input type="password" id="regPwd" placeholder="密码（至少6位）">
-      <button class="btn btn-primary" onclick="doRegister()">注册</button>
+<!-- ===== 报纸版心 ===== -->
+<div class="page-wrap">
+
+  <!-- ===== 报头 ===== -->
+  <header class="masthead">
+    <div class="edition-info">
+      <span id="edition-date"></span>
+      <span>海口版 · 第2026期</span>
+      <span>每日08:00更新</span>
+    </div>
+    <h1>东濂置业 · 资讯日报</h1>
+    <div class="subtitle">海口生活服务信息平台 · 房产 · 出行 · 政策</div>
+  </header>
+
+  <!-- ===== 头条 ===== -->
+  <div class="headline-row">
+    <div class="headline-box">
+      <div class="section-label">本版头条</div>
+      <h2>海口四区房价月报：龙华区均价突破24000元/㎡，领跑全市</h2>
+      <div class="meta">数据来源：东濂置业整理 | 更新于 <span id="update-time"></span></div>
+    </div>
+    <div class="headline-box red-box">
+      <div class="section-label">今日热点</div>
+      <h2>海南新能源汽车以旧换新补贴政策落地，最高补8000元！</h2>
+      <div class="meta">海南省商务厅 2026-04-21</div>
     </div>
   </div>
 
-  <!-- 管理员登录模态框 -->
-  <div id="adminLoginModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="cm('adminLoginModal')">&times;</span>
-      <h2>管理员登录</h2>
-      <input type="text" id="adminUser" placeholder="管理员账号">
-      <input type="password" id="adminPwd" placeholder="管理员密码">
-      <button class="btn btn-primary" onclick="adminLogin()">登录</button>
+  <!-- ===== 房价走势区 ===== -->
+  <div id="price-section"></div>
+  <div class="section-header">
+    <h3>■ 海口四区新盘均价走势</h3>
+    <span class="updated">单位：元/㎡ &nbsp;|&nbsp; 数据每日08:00更新</span>
+  </div>
+  <div class="chart-section">
+    <div class="chart-header">
+      <div class="chart-legend" id="chartLegend"></div>
+      <span style="font-size:11px;color:#aaa;font-family:sans-serif">近30日均价趋势（K线风格）</span>
     </div>
+    <div id="priceChart"></div>
   </div>
 
-  <!-- 发布信息模态框 -->
-  <div id="postFormModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="cm('postFormModal')">&times;</span>
-      <h2>发布信息</h2>
-      <input type="text" id="postTitle" placeholder="标题">
-      <textarea id="postDesc" placeholder="详细描述"></textarea>
-      <input type="text" id="postContact" placeholder="联系电话">
-      <input type="text" id="postPrice" placeholder="价格（选填）">
-      <button class="btn btn-primary" onclick="submitPost()">发布</button>
-    </div>
+  <!-- ===== 四区均价 ===== -->
+  <div class="district-prices" id="districtPrices"></div>
+
+  <!-- ===== 资讯快报 ===== -->
+  <div id="news-section"></div>
+  <div class="section-header">
+    <h3>■ 今日资讯快报</h3>
+    <span class="updated">每日更新 · 图文呈现</span>
   </div>
 
-  <script src="js/data.js"></script>
-  <script src="js/extra_data.js"></script>
-  <script src="js/policy_data.js"></script>
-  <script src="js/app.js"></script>
+  <div class="news-grid" id="newsGrid"></div>
+
+  <!-- ===== 页脚 ===== -->
+  <div class="footer-bar">
+    东濂置业 · donglian235287 · 专注海口本地生活服务信息
+    &nbsp;|&nbsp;
+    建议反馈：rainbowbridge-hong@github
+  </div>
+
+</div><!-- /page-wrap -->
+
+<script src="js/data.js"></script>
+<script src="js/news_data.js"></script>
+<script>
+  // ===== 初始化日期 =====//
+  (function() {
+    var now = new Date();
+    var days = ['日','一','二','三','四','五','六'];
+    var dateStr = now.getFullYear() + '年' +
+      (now.getMonth()+1) + '月' + now.getDate() + '日 ' +
+      '星期' + days[now.getDay()];
+    document.getElementById('navDate').textContent = dateStr;
+    document.getElementById('edition-date').textContent = dateStr;
+    document.getElementById('update-time').textContent =
+      (DISTRICT_CHART_DATA && DISTRICT_CHART_DATA.updateTime) || dateStr;
+  })();
+
+  // ===== K线风格均价图 =====//
+  (function initChart() {
+    var chartDom = document.getElementById('priceChart');
+    var myChart = echarts.init(chartDom);
+
+    var districts = DISTRICT_CHART_DATA.districts;
+    var colors   = DISTRICT_CHART_DATA.colors;
+    var history  = DISTRICT_CHART_DATA.history;
+
+    // 生成近30天 x轴标签（每月日）
+    var now = new Date();
+    var xData = [];
+    for (var i = 29; i >= 0; i--) {
+      var d = new Date(now);
+      d.setDate(d.getDate() - i);
+      xData.push((d.getMonth()+1) + '/' + d.getDate());
+    }
+
+    // 各区series
+    var series = districts.map(function(dist, idx) {
+      return {
+        name: dist,
+        type: 'line',
+        smooth: true,
+        symbol: 'none',
+        lineStyle: { width: 2.5, color: colors[idx] },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            { offset: 0, color: colors[idx] + '55' },
+            { offset: 1, color: colors[idx] + '08' }
+          ])
+        },
+        data: history[dist],
+        markLine: {
+          silent: true,
+          symbol: 'none',
+          lineStyle: { type: 'dashed', width: 1 },
+          data: [
+            { type: 'average', name: '均值' }
+          ]
+        }
+      };
+    });
+
+    var option = {
+      backgroundColor: '#fff',
+      grid: { top: 18, right: 18, bottom: 36, left: 58 },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross',
+          lineStyle: { color: '#888', type: 'dashed' },
+          crossStyle: { color: '#888' }
+        },
+        formatter: function(params) {
+          var date = params[0].axisValue;
+          var html = '<div style="font-size:11px;font-weight:bold;margin-bottom:4px">' + date + '</div>';
+          params.forEach(function(p) {
+            html += '<div style="display:flex;justify-content:space-between;gap:12px;font-size:11px">' +
+              '<span style="color:' + p.color + '">● ' + p.seriesName + '</span>' +
+              '<span style="font-weight:bold">' + p.value.toLocaleString() + ' 元/㎡</span></div>';
+          });
+          return html;
+        }
+      },
+      xAxis: {
+        type: 'category',
+        data: xData,
+        boundaryGap: false,
+        axisLine: { lineStyle: { color: '#333' } },
+        axisTick: { show: false },
+        axisLabel: {
+          fontSize: 10,
+          color: '#888',
+          interval: 4,
+          fontFamily: 'sans-serif'
+        },
+        splitLine: { show: false }
+      },
+      yAxis: {
+        type: 'value',
+        min: function(v) { return Math.floor(v.min / 500) * 500 - 500; },
+        axisLabel: {
+          fontSize: 10,
+          color: '#888',
+          formatter: function(v) { return (v/10000).toFixed(1) + '万'; },
+          fontFamily: 'sans-serif'
+        },
+        splitLine: { lineStyle: { color: '#eee', type: 'dashed' } },
+        axisLine: { show: false },
+        axisTick: { show: false }
+      },
+      series: series
+    };
+
+    myChart.setOption(option);
+    window.addEventListener('resize', function() { myChart.resize(); });
+
+    // 图例
+    var legendEl = document.getElementById('chartLegend');
+    districts.forEach(function(dist, i) {
+      var span = document.createElement('span');
+      span.innerHTML = '<span class="dot" style="background:' + colors[i] + '"></span> ' + dist;
+      legendEl.appendChild(span);
+    });
+  })();
+
+  // ===== 四区价格卡片 =====//
+  (function renderPrices() {
+    var el = document.getElementById('districtPrices');
+    var colors = DISTRICT_CHART_DATA.colors;
+    var dists  = DISTRICT_CHART_DATA.districts;
+    var data   = TODAY_DISTRICT_PRICE;
+
+    dists.forEach(function(name, i) {
+      var d = data[name];
+      if (!d) return;
+      var trendClass = d.up ? 'up' : 'down';
+      var trendSign  = d.up ? '▲' : '▼';
+      var card = document.createElement('div');
+      card.className = 'price-card';
+      card.style.borderTop = '3px solid ' + colors[i];
+      card.innerHTML =
+        '<div class="d-name">' + name + '</div>' +
+        '<div class="d-price">' + d.price.toLocaleString() + '</div>' +
+        '<div class="d-unit">元/㎡</div>' +
+        '<div class="d-trend ' + trendClass + '">' +
+          trendSign + ' ' + d.trend + '（+' + d.change + '）' +
+        '</div>';
+      el.appendChild(card);
+    });
+  })();
+
+  // ===== 资讯列渲染 =====//
+  (function renderNews() {
+    var grid = document.getElementById('newsGrid');
+    var sections = [
+      {
+        key: 'wyche', title: '网约车', cls: 'wyche',
+        items: NEWS_WYCHE
+      },
+      {
+        key: 'ev', title: '新能源汽车', cls: 'ev',
+        items: NEWS_EV
+      },
+      {
+        key: 'moto', title: '摩托车', cls: 'moto',
+        items: NEWS_MOTO
+      },
+      {
+        key: 'ebike', title: '电动自行车', cls: 'ebike',
+        items: NEWS_EBIKE
+      }
+    ];
+
+    sections.forEach(function(sec) {
+      var col = document.createElement('div');
+      col.className = 'news-col';
+
+      var header = document.createElement('div');
+      header.className = 'news-col-header ' + sec.cls;
+      header.textContent = sec.title;
+      col.appendChild(header);
+
+      sec.items.forEach(function(item) {
+        var el = document.createElement('div');
+        el.className = 'news-item';
+        el.innerHTML =
+          '<div>' +
+            '<span class="tag ' + (item.hot ? 'hot' : 'normal') + '">' +
+              (item.hot ? '热】' : '') + item.tag +
+            '</span>' +
+          '</div>' +
+          '<div class="title">' + item.title + '</div>' +
+          '<div class="summary">' + item.summary + '</div>' +
+          '<div class="footer">' +
+            '<span>' + item.source + '</span>' +
+            '<span>' + item.date + '</span>' +
+          '</div>';
+        col.appendChild(el);
+      });
+
+      grid.appendChild(col);
+    });
+  })();
+</script>
 </body>
 </html>
