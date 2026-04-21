@@ -200,27 +200,74 @@ function filterTudi(district,btn){
 
 function renderTudiList(district){
   var html='<div class="card-list">';
-  var filtered=district==='全部'?TUDI_DATA:TUDI_DATA.filter(function(item){return item.district===district;});
+  var filtered=district==='全部'?TU_DI:TU_DI.filter(function(item){return item.district===district;});
   if(filtered.length===0){html+='<p class="empty">该区域内暂无土地信息</p>';}
   else{
     filtered.forEach(function(item){
-      html+='<div class="card"><h3>'+item.name+'</h3><p>📍 '+item.district+' | 📐 '+item.area+'亩</p>';
-      html+='<p>💰 '+item.price+'万/亩 | 🏷 '+item.type+'</p><p>'+item.desc+'</p></div>';
+      html+='<div class="card"><h3>'+item.name+'</h3><p>📍 '+item.district+' | 📐 '+item.area+'㎡</p>';
+      html+='<p>💰 '+item.price+'万元 | 🏷 '+item.type+'</p><p>'+item.desc+'</p></div>';
     });
   }
   html+='</div>';
   return html;
 }
 
-// 电动车
-function renderDianji(){
-  var html='<div class="section"><h2>⚡ 电动车</h2><div class="card-list">';
-  CAR_DATA.filter(function(c){return c.type==='电动车';}).forEach(function(item){
-    html+='<div class="card"><h3>'+item.name+'</h3><p>🏷 '+item.brand+' | 💰 '+item.price+'万</p>';
-    html+='<p>📍 '+item.district+'</p><p>'+item.desc+'</p></div>';
+// 汽车栏目
+function renderDiandongche(){
+  var html='<div class="section"><h2>🚗 汽车信息</h2>';
+  html+='<div class="tabs"><button class="tab-btn on" onclick="switchCarTab(\'xin\',this)">新车</button>';
+  html+='<button class="tab-btn" onclick="switchCarTab(\'zhengce\',this)">政策</button></div>';
+  html+='<div id="carContent">'+renderCarList()+'</div>';
+  html+='<div class="user-post-btn"><button class="btn btn-primary" onclick="showPostForm(\'diandongche\')">📝 个人发布</button></div>';
+  return html;
+}
+
+function switchCarTab(tab,btn){
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  var content=document.getElementById('carContent');
+  if(content){
+    content.innerHTML=tab==='xin'?renderCarList():renderCarPolicy();
+  }
+}
+
+function renderCarList(){
+  var html='<div class="card-list">';
+  CAR_DATA.forEach(function(item){
+    html+='<div class="card"><h3>'+item.brand+' '+item.model+'</h3>';
+    html+='<p>🏷 '+item.type+' | 原价：'+item.price+'万 | 优惠：'+item.discount+'万</p>';
+    html+='<p>💰 到手价：'+item.finalPrice+'万</p>';
+    html+='<p>📍 '+item.dealer+'</p>';
+    html+='<p style="color:#e74c3c;font-size:12px;">'+item.policy+'</p></div>';
   });
   html+='</div>';
-  html+='<div class="user-post-btn"><button class="btn btn-primary" onclick="showPostForm(\'diandongche\')">📝 个人发布</button></div>';
+  return html;
+}
+
+function renderCarPolicy(){
+  var html='<div class="card-list">';
+  html+='<div class="card"><h3>2026年海南省汽车以旧换新补贴</h3>';
+  html+='<p>新能源乘用车：按新车销售价格8%补贴，最高1.5万元</p>';
+  html+='<p>燃油乘用车(2.0L及以下)：按新车销售价格6%补贴，最高1.3万元</p>';
+  html+='<p>📅 2026年1月1日起实施</p></div>';
+  html+='<div class="card"><h3>2026年龙华区汽车消费补贴</h3>';
+  html+='<p>10-20万：燃油车补3000元，新能源补4000元</p>';
+  html+='<p>20-30万：燃油车补5000元，新能源补6000元</p>';
+  html+='<p>30万以上：燃油车补7000元，新能源补8000元</p>';
+  html+='<p>📅 2026年1月1日-3月31日购车可申请</p></div>';
+  html+='</div>';
+  return html;
+}
+
+// 电动车栏目
+function renderDianji(){
+  var html='<div class="section"><h2>⚡ 电动车政策</h2><div class="card-list">';
+  EBIKE_DATA.forEach(function(item){
+    html+='<div class="card"><h3>'+item.title+'</h3><p>'+item.content+'</p>';
+    html+='<p>📅 '+item.date+' | 📰 '+item.source+'</p></div>';
+  });
+  html+='</div>';
+  html+='<div class="user-post-btn"><button class="btn btn-primary" onclick="showPostForm(\'dianji\')">📝 个人发布</button></div>';
   return html;
 }
 
@@ -228,8 +275,8 @@ function renderDianji(){
 function renderWangyueche(){
   var html='<div class="section"><h2>🚕 网约车</h2><div class="card-list">';
   WYCHE_DATA.forEach(function(item){
-    html+='<div class="card"><h3>'+item.title+'</h3><p>'+item.content.substring(0,100)+'...</p>';
-    html+='<p>📅 '+item.date+' | 👁 '+item.views+'</p></div>';
+    html+='<div class="card"><h3>'+item.title+'</h3><p>'+item.content+'</p>';
+    html+='<p>📅 '+item.date+' | 📰 '+item.source+'</p></div>';
   });
   html+='</div>';
   html+='<div class="user-post-btn"><button class="btn btn-primary" onclick="showPostForm(\'wangyueche\')">📝 个人发布</button></div>';
@@ -238,12 +285,18 @@ function renderWangyueche(){
 
 // 学车
 function renderXueche(){
-  var html='<div class="section"><h2>📚 学车信息</h2><div class="card-list">';
-  XUECHE_DATA.filter(function(x){return x.type==='驾校'||x.type==='考场';}).forEach(function(item){
-    html+='<div class="card"><h3>'+item.name+'</h3><p>📍 '+item.district+' | 💰 '+item.price+'</p>';
-    html+='<p>'+item.desc+'</p></div>';
+  var html='<div class="section"><h2>📚 学车信息</h2>';
+  html+='<div class="district-filter"><span>2026年海口驾校C1价格参考：</span>';
+  html+='<span style="color:#e74c3c;">全包班3100-7500元</span></div>';
+  html+='<div class="card-list">';
+  XUECHE_DATA.forEach(function(item){
+    html+='<div class="card"><h3>'+item.school+'</h3>';
+    html+='<p>📍 '+item.address+'</p>';
+    html+='<p>💰 '+item.type+'全包班：'+item.price+'元 | ⭐ 评分：'+item.rating+'</p>';
+    html+='<p>📞 '+item.phone+'</p></div>';
   });
   html+='</div>';
+  html+='<div class="user-post-btn"><button class="btn btn-primary" onclick="showPostForm(\'xueche\')">📝 个人发布</button></div>';
   return html;
 }
 
@@ -272,9 +325,9 @@ function renderYanwo(){
   if(typeof YANWO_DATA!=='undefined'&&YANWO_DATA.length>0){
     YANWO_DATA.forEach(function(item){
       html+='<div class="card" style="border-left:3px solid #e8b4b8;"><h3>🪺 '+item.name+'</h3>';
-      html+='<p>产地：'+item.origin+' | 规格：'+item.spec+'</p>';
-      html+='<p>💰 '+item.price+'元 | 📦 库存：'+item.stock+'</p>';
-      html+='<p style="color:#888;font-size:12px;">'+item.desc+'</p></div>';
+      html+='<p>产地：'+item.origin+' | 等级：'+item.grade+'</p>';
+      html+='<p>💰 '+item.price+'元/'+item.unit+' | 类型：'+item.type+'</p>';
+      html+='<p style="color:#888;font-size:12px;">数据来源：'+item.source+'</p></div>';
     });
   }else{
     html+='<p class="empty">暂无洞燕产品信息</p>';
@@ -288,7 +341,7 @@ function renderYanwoZhishi(){
   if(typeof YANWO_ZHISHI!=='undefined'&&YANWO_ZHISHI.length>0){
     YANWO_ZHISHI.forEach(function(item){
       html+='<div class="card"><h3>'+item.title+'</h3>';
-      html+='<p>'+item.content.substring(0,100)+'...</p>';
+      html+='<p>'+item.content+'</p>';
       html+='<p style="color:#888;font-size:12px;">📅 '+item.date+'</p></div>';
     });
   }else{
@@ -300,10 +353,13 @@ function renderYanwoZhishi(){
 
 // 资讯
 function renderNews(){
-  var html='<div class="section"><h2>📰 资讯</h2><div class="card-list">';
-  FANGCHAN_POLICY.forEach(function(item){
-    html+='<div class="card"><h3>'+item.title+'</h3><p>'+item.content.substring(0,100)+'...</p>';
-    html+='<p>📅 '+item.date+' | 👁 '+item.views+'</p></div>';
+  var html='<div class="section"><h2>📰 房产资讯</h2>';
+  html+='<div class="district-filter"><span>时间范围：</span>';
+  html+='<span style="color:#3498db;">2026年1月1日 - 4月19日</span></div>';
+  html+='<div class="card-list">';
+  FANGCHIAN_POLICY.forEach(function(item){
+    html+='<div class="card"><h3>'+item.title+'</h3><p>'+item.content.substring(0,120)+'...</p>';
+    html+='<p>📅 '+item.date+' | 👁 '+item.views+' | 📰 '+item.source+'</p></div>';
   });
   html+='</div>';
   html+='<div class="user-post-btn"><button class="btn btn-primary" onclick="showPostForm(\'news\')">📝 个人发布</button></div>';
@@ -382,7 +438,7 @@ function gp(page){
     case 'fangchan':content=renderFangchan();break;
     case 'tudi':content=renderTudi();break;
     case 'shenghuo':content=renderShenghuo();break;
-    case 'diandongche':content=renderDianji();break;
+    case 'diandongche':content=renderDiandongche();break;
     case 'dianji':content=renderDianji();break;
     case 'wangyueche':content=renderWangyueche();break;
     case 'xueche':content=renderXueche();break;
